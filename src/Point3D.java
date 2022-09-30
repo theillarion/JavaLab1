@@ -3,16 +3,16 @@ public class Point3D extends Point
 	public Point3D()
 	{
 		super(3);
-		dim = super.getDim();
-		x = new double[] {0, 0, 0};
+	}
+
+	public Point3D(Point3D p)
+	{
+		super(p);
 	}
 
 	public Point3D(double[] x)
 	{
-		super(3);
-		dim = super.getDim();
-		this.x = new double[dim];
-		System.arraycopy(x, 0, this.x, 0, dim);
+		super(3, x);
 	}
 
 	static public Point3D cross_prod(Point3D p1, Point3D p2)

@@ -3,16 +3,16 @@ public class Point2D extends Point
 	public Point2D()
 	{
 		super(2);
-		dim = 2;
-		x = new double[] {0, 0};
+	}
+
+	public Point2D(Point2D p)
+	{
+		super(p);
 	}
 
 	public Point2D(double[] x)
 	{
-		super(2);
-		dim = 2;
-		this.x = new double[2];
-		System.arraycopy(x, 0, this.x, 0, dim);
+		super(2, x);
 	}
 
 	static public Point2D rot(Point2D p, double phi)
