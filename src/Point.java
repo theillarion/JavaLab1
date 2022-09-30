@@ -5,6 +5,13 @@ public class Point
 	protected int		dim = 0;
 	protected double[]	x;
 
+	public Point(Point p)
+	{
+		dim = p.dim;
+		x = new double[dim];
+		System.arraycopy(p.x, 0, x, 0, dim);
+	}
+
 	public Point(int dim)
 	{
 		this.dim = dim;
@@ -156,7 +163,6 @@ public class Point
 		return this;
 	}
 
-	@Override
 	public String toString()
 	{
 		StringBuilder str = new StringBuilder();
