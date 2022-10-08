@@ -65,6 +65,19 @@ public class Circle implements IShape
 	@Override
 	public boolean cross(IShape i)
 	{
-		return true;
+		if (i instanceof Circle circle)
+		{
+			double d = Point2D.lengthTwoPoint(this.getP(), circle.getP());
+			if (d > this.r + circle.r || d < Math.abs(this.r - circle.r))
+				return false;
+			return true;
+		}
+		return i.cross(this);
+	}
+
+	@Override
+	public String toString()
+	{
+		return String.format("Figure: Circle; Center: %s; R: %f", p.toString(), r);
 	}
 }

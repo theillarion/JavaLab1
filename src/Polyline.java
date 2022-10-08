@@ -1,5 +1,3 @@
-import java.util.Arrays;
-
 public class Polyline extends OpenFigure implements IPolyPoint
 {
 	protected int n;
@@ -67,30 +65,50 @@ public class Polyline extends OpenFigure implements IPolyPoint
 		return this;
 	}
 
-	static public double lengthTwoPoint(Point2D p1, Point2D p2)
-	{
-		return Math.sqrt(Math.pow(p2.x[0] - p1.x[0], 2)
-			+ Math.pow(p2.x[1] - p1.x[1], 2));
-	}
-
 	@Override
 	public double length()
 	{
 		double result = 0;
 		for (int i = 0; i + 1 < n; i++)
-			result += lengthTwoPoint(p[i], p[i + 1]);
+			result += Point2D.lengthTwoPoint(p[i], p[i + 1]);
 		return result;
 	}
 
 	@Override
-	public boolean cross(IShape i)
+	public boolean cross(IShape i) throws IllegalArgumentException
 	{
-		return true;
+		if (i instanceof Segment segment)
+			return segment.cross(this);
+		else if (i instanceof Polyline polyline)
+		{
+			for (int j = 0; j + 1 < polyline.getN(); j++)
+				if ((new Segment(polyline.getP(j), polyline.getP(j + 1))).cross(this))
+					return true;
+			return false;
+		}
+		else if (i instanceof NGon ngon)
+		{
+			for (int j = 0; j + 1 < ngon.getN(); j++)
+				if ((new Segment(ngon.getP(j), ngon.getP(j + 1))).cross(this))
+					return true;
+			return (new Segment(ngon.getP(ngon.getN() - 1), ngon.getP(0))).cross(this);
+		}
+		else if (i instanceof Circle circle)
+		{
+			for (int j = 0; j + 1 < getN(); j++)
+				if ((new Segment(getP(j), getP(j + 1))).cross(circle))
+					return true;
+			return false;
+		}
+		throw new IllegalArgumentException("Shape is not found");
 	}
 
 	@Override
 	public String toString()
 	{
-		return "Object is polyline";
+		StringBuilder str = new StringBuilder();
+		for (int i = 0; i < n; i++)
+			str.append(p[i].toString()).append(" ");
+		return String.format("Figure: Polyline; Points: {%s}", str);
 	}
 }

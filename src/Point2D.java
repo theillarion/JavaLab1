@@ -30,4 +30,9 @@ public class Point2D extends Point
 		x[1] = -X * Math.sin(phi)+ Y * Math.cos(phi);
 		return this;
 	}
+	static public double lengthTwoPoint(Point2D p1, Point2D p2)
+	{
+		return Math.sqrt(Math.pow(p2.x[0] - p1.x[0], 2)
+			+ Math.pow(p2.x[1] - p1.x[1], 2));
+	}
 }

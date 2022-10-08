@@ -2,7 +2,7 @@ import java.util.Arrays;
 
 public class Point
 {
-	protected int		dim = 0;
+	protected int		dim;
 	protected double[]	x;
 
 	public Point(Point p)
@@ -168,6 +168,6 @@ public class Point
 		StringBuilder str = new StringBuilder();
 		for (int i = 0; i < dim; i++)
 			str.append(Double.toString(x[i])).append(" ");
-		return "Dim: " + dim + "; Elements: { " + str + "}";
+		return String.format("[%s]", str);
 	}
 }

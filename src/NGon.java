@@ -69,9 +69,9 @@ public class NGon implements IShape, IPolyPoint
 
 	static private double squareTriangle(Point2D a, Point2D b, Point2D c)
 	{
-		double x1 = Polyline.lengthTwoPoint(a, b);
-		double x2 = Polyline.lengthTwoPoint(b, c);
-		double x3 = Polyline.lengthTwoPoint(a, c);
+		double x1 = Point2D.lengthTwoPoint(a, b);
+		double x2 = Point2D.lengthTwoPoint(b, c);
+		double x3 = Point2D.lengthTwoPoint(a, c);
 		double p = (x1 + x2 + x3) / 2;
 		return Math.sqrt(p * (p - x1) * (p - x2) * (p - x3));
 	}
@@ -90,19 +90,37 @@ public class NGon implements IShape, IPolyPoint
 	{
 		double result = 0;
 		for (int i = 0; i + 1 < n; i++)
-			result += Polyline.lengthTwoPoint(p[i], p[i + 1]);
+			result += Point2D.lengthTwoPoint(p[i], p[i + 1]);
+		result += Point2D.lengthTwoPoint(p[n - 1], p[0]);
 		return result;
 	}
 
 	@Override
-	public boolean cross(IShape i)
+	public boolean cross(IShape i) throws IllegalArgumentException
 	{
-		return true;
+		if (i instanceof NGon ngon)
+		{
+			for (int j = 0; j + 1 < getN(); j++)
+				if ((new Segment(getP(j), getP(j + 1))).cross(ngon))
+					return true;
+			return (new Segment(getP(getN() - 1), getP(0))).cross(ngon);
+		}
+		else if (i instanceof Circle circle)
+		{
+			for (int j = 0; j + 1 < getN(); j++)
+				if ((new Segment(getP(j), getP(j + 1))).cross(circle))
+					return true;
+			return (new Segment(getP(getN() - 1), getP(0))).cross(circle);
+		}
+		return i.cross(this);
 	}
 
 	@Override
 	public String toString()
 	{
-		return "Object is NGon";
+		StringBuilder str = new StringBuilder();
+		for (int i = 0; i < n; i++)
+			str.append(p[i].toString()).append(" ");
+		return String.format("Figure: NGon; Points: {%s}", str);
 	}
 }
