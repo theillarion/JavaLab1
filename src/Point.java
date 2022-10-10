@@ -7,23 +7,23 @@ public class Point
 
 	public Point(Point p)
 	{
-		dim = p.dim;
-		x = new double[dim];
-		System.arraycopy(p.x, 0, x, 0, dim);
+		this.dim = p.dim;
+		this.x = new double[this.dim];
+		System.arraycopy(p.x, 0, this.x, 0, this.dim);
 	}
 
 	public Point(int dim)
 	{
 		this.dim = dim;
-		x = new double[dim];
-		Arrays.fill(x, 0);
+		this.x = new double[this.dim];
+		Arrays.fill(this.x, 0);
 	}
 
 	public Point(int dim, double[] x)
 	{
 		this.dim = dim;
-		this.x = new double[dim];
-		System.arraycopy(x, 0, this.x, 0, dim);
+		this.x = new double[this.dim];
+		System.arraycopy(x, 0, this.x, 0, this.dim);
 	}
 
 	public int getDim()
@@ -36,23 +36,23 @@ public class Point
 		return x;
 	}
 
-	public double getX(int i)
+	public double getX(int i) throws ArrayIndexOutOfBoundsException
 	{
 		if (i < 0 || i >= dim)
 			throw new ArrayIndexOutOfBoundsException();
 		return x[i];
 	}
 
-	public void setX(double[] x)
+	public void setX(double[] x) throws IllegalArgumentException
 	{
-		if (dim != x.length)
+		if (this.dim != x.length)
 			throw new IllegalArgumentException();
-		System.arraycopy(x, 0, this.x, 0, dim);
+		System.arraycopy(x, 0, this.x, 0, this.dim);
 	}
 
-	public void setX(double x, int i)
+	public void setX(double x, int i) throws ArrayIndexOutOfBoundsException
 	{
-		if (i < 0 || i >= dim)
+		if (i < 0 || i >= this.dim)
 			throw new ArrayIndexOutOfBoundsException();
 		this.x[i] = x;
 	}
@@ -60,12 +60,12 @@ public class Point
 	public double abs()
 	{
 		double result = 0.d;
-		for (int i = 0; i < dim; ++i)
-			result += Math.pow(x[i], 2);
+		for (int i = 0; i < this.dim; ++i)
+			result += Math.pow(this.x[i], 2);
 		return Math.sqrt(result);
 	}
 
-	static public Point add(Point a, Point b)
+	static public Point add(Point a, Point b) throws IllegalArgumentException
 	{
 		if (a.dim != b.dim)
 			throw new IllegalArgumentException();
@@ -75,17 +75,16 @@ public class Point
 		return new Point(a.dim, c);
 	}
 
-	Point add(Point a)
+	Point add(Point a) throws IllegalArgumentException
 	{
-		if (dim != a.dim)
+		if (this.dim != a.dim)
 			throw new IllegalArgumentException();
-		x = new double[dim];
-		for (int i = 0; i < dim; i++)
-			x[i] += a.x[i];
+		for (int i = 0; i < this.dim; i++)
+			this.x[i] += a.x[i];
 		return this;
 	}
 
-	static public Point sub(Point a, Point b)
+	static public Point sub(Point a, Point b) throws IllegalArgumentException
 	{
 		if (a.dim != b.dim)
 			throw new IllegalArgumentException();
@@ -95,13 +94,12 @@ public class Point
 		return new Point(a.dim, c);
 	}
 
-	public Point sub(Point a)
+	public Point sub(Point a) throws IllegalArgumentException
 	{
-		if (dim != a.dim)
+		if (this.dim != a.dim)
 			throw new IllegalArgumentException();
-		x = new double[dim];
-		for (int i = 0; i < a.dim; i++)
-			x[i] -= a.x[i];
+		for (int i = 0; i < this.dim; i++)
+			this.x[i] -= a.x[i];
 		return this;
 	}
 
@@ -115,34 +113,32 @@ public class Point
 
 	public Point mult(double r)
 	{
-		for (int i = 0; i < dim; i++)
-			x[i] *= r;
+		for (int i = 0; i < this.dim; i++)
+			this.x[i] *= r;
 		return this;
 	}
 
-	static public double mult(Point a,Point b)
+	static public double mult(Point a,Point b) throws IllegalArgumentException
 	{
 		if (a.dim != b.dim)
 			throw new IllegalArgumentException();
 		double result = 0;
-		for (int i = 0; i < a.dim; i++) {
+		for (int i = 0; i < a.dim; i++)
 			result += a.x[i] * b.x[i];
-		}
 		return Math.sqrt(result);
 	}
 
-	public double mult(Point b)
+	public double mult(Point b) throws IllegalArgumentException
 	{
-		if (dim != b.dim)
+		if (this.dim != b.dim)
 			throw new IllegalArgumentException();
 		double result = 0;
-		for (int i = 0; i < dim; i++) {
-			result += x[i] * b.x[i];
-		}
+		for (int i = 0; i < this.dim; i++)
+			result += this.x[i] * b.x[i];
 		return Math.sqrt(result);
 	}
 
-	static public Point symAxis(Point a, int i)
+	static public Point symAxis(Point a, int i) throws ArrayIndexOutOfBoundsException
 	{
 		if (i < 0 || i >= a.dim)
 			throw new ArrayIndexOutOfBoundsException();
@@ -153,13 +149,13 @@ public class Point
 		return new Point(a.dim, new_x);
 	}
 
-	public Point symAxis(int i)
+	public Point symAxis(int i) throws ArrayIndexOutOfBoundsException
 	{
-		if (i < 0 || i >= dim)
+		if (i < 0 || i >= this.dim)
 			throw new ArrayIndexOutOfBoundsException();
-		for (int j = 0; j < dim; j++)
+		for (int j = 0; j < this.dim; j++)
 			if (j != i)
-				x[j] = -x[j];
+				this.x[j] = -x[j];
 		return this;
 	}
 
@@ -167,7 +163,7 @@ public class Point
 	{
 		StringBuilder str = new StringBuilder();
 		for (int i = 0; i < dim; i++)
-			str.append(Double.toString(x[i])).append(" ");
-		return String.format("[%s]", str);
+			str.append(x[i]).append(" ");
+		return String.format("[ %s]", str);
 	}
 }

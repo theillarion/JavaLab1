@@ -24,10 +24,10 @@ public class Point2D extends Point
 
 	public Point2D rot(double phi)
 	{
-		double X = x[0];
-		double Y = x[1];
-		x[0] = X * Math.cos(phi) + Y * Math.sin(phi);
-		x[1] = -X * Math.sin(phi)+ Y * Math.cos(phi);
+		double X = this.x[0];
+		double Y = this.x[1];
+		this.x[0] = X * Math.cos(phi) + Y * Math.sin(phi);
+		this.x[1] = -X * Math.sin(phi)+ Y * Math.cos(phi);
 		return this;
 	}
 	static public double lengthTwoPoint(Point2D p1, Point2D p2)

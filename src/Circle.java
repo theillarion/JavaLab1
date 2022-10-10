@@ -11,7 +11,7 @@ public class Circle implements IShape
 
 	public Point2D getP()
 	{
-		return p;
+		return this.p;
 	}
 
 	public void setP(Point2D p)
@@ -21,7 +21,7 @@ public class Circle implements IShape
 
 	public double getR()
 	{
-		return r;
+		return this.r;
 	}
 
 	public void setR(double r)
@@ -32,34 +32,34 @@ public class Circle implements IShape
 	@Override
 	public Circle shift(Point2D a)
 	{
-		p.add(a);
+		this.p.add(a);
 		return this;
 	}
 
 	@Override
 	public Circle rot(double phi)
 	{
-		p.rot(phi);
+		this.p.rot(phi);
 		return this;
 	}
 
 	@Override
 	public Circle symAxis(int i)
 	{
-		p.symAxis(i);
+		this.p.symAxis(i);
 		return this;
 	}
 
 	@Override
 	public double square()
 	{
-		return Math.PI * Math.pow(r, 2);
+		return Math.PI * Math.pow(this.r, 2);
 	}
 
 	@Override
 	public double length()
 	{
-		return 2 * Math.PI * r;
+		return 2 * Math.PI * this.r;
 	}
 
 	@Override
@@ -78,6 +78,6 @@ public class Circle implements IShape
 	@Override
 	public String toString()
 	{
-		return String.format("Figure: Circle; Center: %s; R: %f", p.toString(), r);
+		return String.format("Figure: Circle; Center: %s; R: %f", this.p, this.r);
 	}
 }

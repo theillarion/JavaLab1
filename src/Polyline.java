@@ -10,33 +10,33 @@ public class Polyline extends OpenFigure implements IPolyPoint
 
 	public int getN()
 	{
-		return n;
+		return this.n;
 	}
 
 	public Point2D[] getP()
 	{
-		return p;
+		return this.p;
 	}
 
 	@Override
-	public Point2D getP(int i)
+	public Point2D getP(int i) throws ArrayIndexOutOfBoundsException
 	{
-		if (i < 0 || i >= n)
+		if (i < 0 || i >= this.n)
 			throw new ArrayIndexOutOfBoundsException();
-		return p[i];
+		return this.p[i];
 	}
 
 	public void setP(Point2D[] p)
 	{
-		n = p.length;
-		this.p = new Point2D[n];
-		System.arraycopy(p, 0, this.p, 0, n);
+		this.n = p.length;
+		this.p = new Point2D[this.n];
+		System.arraycopy(p, 0, this.p, 0, this.n);
 	}
 
 	@Override
-	public void setP(Point2D p, int i)
+	public void setP(Point2D p, int i) throws ArrayIndexOutOfBoundsException
 	{
-		if (i < 0 || i >= n)
+		if (i < 0 || i >= this.n)
 			throw new ArrayIndexOutOfBoundsException();
 		this.p[i] = p;
 	}
@@ -44,7 +44,7 @@ public class Polyline extends OpenFigure implements IPolyPoint
 	@Override
 	public Polyline shift(Point2D a)
 	{
-		for (var elem : p)
+		for (var elem : this.p)
 			elem.add(a);
 		return this;
 	}
@@ -52,7 +52,7 @@ public class Polyline extends OpenFigure implements IPolyPoint
 	@Override
 	public Polyline rot(double phi)
 	{
-		for (var elem : p)
+		for (var elem : this.p)
 			elem.rot(phi);
 		return this;
 	}
@@ -60,7 +60,7 @@ public class Polyline extends OpenFigure implements IPolyPoint
 	@Override
 	public Polyline symAxis(int i)
 	{
-		for (var elem : p)
+		for (var elem : this.p)
 			elem.symAxis(i);
 		return this;
 	}
@@ -69,8 +69,8 @@ public class Polyline extends OpenFigure implements IPolyPoint
 	public double length()
 	{
 		double result = 0;
-		for (int i = 0; i + 1 < n; i++)
-			result += Point2D.lengthTwoPoint(p[i], p[i + 1]);
+		for (int i = 0; i + 1 < this.n; i++)
+			result += Point2D.lengthTwoPoint(this.p[i], this.p[i + 1]);
 		return result;
 	}
 
@@ -95,8 +95,8 @@ public class Polyline extends OpenFigure implements IPolyPoint
 		}
 		else if (i instanceof Circle circle)
 		{
-			for (int j = 0; j + 1 < getN(); j++)
-				if ((new Segment(getP(j), getP(j + 1))).cross(circle))
+			for (int j = 0; j + 1 < this.getN(); j++)
+				if ((new Segment(this.getP(j), this.getP(j + 1))).cross(circle))
 					return true;
 			return false;
 		}
@@ -107,8 +107,8 @@ public class Polyline extends OpenFigure implements IPolyPoint
 	public String toString()
 	{
 		StringBuilder str = new StringBuilder();
-		for (int i = 0; i < n; i++)
-			str.append(p[i].toString()).append(" ");
+		for (int i = 0; i < this.n; i++)
+			str.append(this.p[i].toString()).append(" ");
 		return String.format("Figure: Polyline; Points: {%s}", str);
 	}
 }
