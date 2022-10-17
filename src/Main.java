@@ -1,4 +1,3 @@
-import java.io.IOException;
 import java.util.*;
 
 public class Main
@@ -66,8 +65,9 @@ public class Main
     {
         List<IShape> shapes = new ArrayList<>();
         List<IShape> shapes2 = new ArrayList<>();
+        List<IShape> shapes3 = new ArrayList<>();
         Scanner in = new Scanner(System.in);
-        int N = 0;
+        int N;
         double square = 0;
         double length = 0;
 
@@ -88,33 +88,26 @@ public class Main
             System.out.println("Length all shapes: " + length);
             System.out.println("Middle square all shapes: " + square / shapes.size());
 
-            for (var shape : shapes) {
-                String nameFigure = getType(shape);
+            for (int i = 0; i < shapes.size(); i++)
+            {
+                String nameFigure = getType(shapes.get(i));
                 System.out.println("Введите характеристики фигуры " + nameFigure + ": ");
                 getInput(in, shapes2, nameFigure);
-            }
-
-            for (int i = 0; i < N; i++) {
-                System.out.println("Фигура 1: " + shapes.get(i));
-                System.out.println("Фигура 2: " + shapes2.get(i));
-                System.out.println("Пересекаются: " + shapes.get(i).cross(shapes2.get(i)));
-            }
-
-            for (var shape : shapes2) {
-                System.out.println("Введите тип движения для фугуры " + getType(shape) + ": ");
+                shapes3.add(shapes2.get(i).clone());
+                System.out.println("Введите тип движения для фугуры " + getType(shapes3.get(i)) + ": ");
                 String move = in.next();
-                switch (move) {
+                switch (move.toLowerCase()) {
                     case "rotate", "rot" -> {
                         System.out.println("Введите угол поворота: ");
-                        shape.rot(in.nextDouble());
+                        shapes3.get(i).rot(in.nextDouble());
                     }
                     case "shift" -> {
                         System.out.println("Введите смещение (двухмерную точку): ");
-                        shape.shift(new Point2D(new double[]{in.nextDouble(), in.nextDouble()}));
+                        shapes3.get(i).shift(new Point2D(new double[]{in.nextDouble(), in.nextDouble()}));
                     }
                     case "symmetry", "sym" -> {
                         System.out.println("Введите симметрию относительно оси: ");
-                        shape.symAxis(in.nextInt());
+                        shapes3.get(i).symAxis(in.nextInt());
                     }
                     default -> System.out.println("Неправильный тип движения! ");
                 }
@@ -123,7 +116,13 @@ public class Main
             for (int i = 0; i < N; i++) {
                 System.out.println("Фигура 1: " + shapes.get(i));
                 System.out.println("Фигура 2: " + shapes2.get(i));
-                System.out.println("Пересекаются: " + shapes.get(i).cross(shapes2.get(i)));
+                System.out.println("Пересекаются: " + shapes.get(i).cross(shapes2.get(i)) + '\n');
+            }
+            System.out.println("\n\n");
+            for (int i = 0; i < N; i++) {
+                System.out.println("Фигура 1: " + shapes.get(i));
+                System.out.println("Фигура 2 c движением: " + shapes3.get(i));
+                System.out.println("Пересекаются: " + shapes.get(i).cross(shapes3.get(i)) + '\n');
             }
         }
         catch (Exception e)
