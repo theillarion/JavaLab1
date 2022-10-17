@@ -76,6 +76,22 @@ public class Circle implements IShape
 	}
 
 	@Override
+	public Circle clone() throws AssertionError
+	{
+		try
+		{
+			var result = (Circle) super.clone();
+			result.setP(this.p);
+			result.setR(this.r);
+			return result;
+		}
+		catch (CloneNotSupportedException e)
+		{
+			throw new AssertionError();
+		}
+	}
+
+	@Override
 	public String toString()
 	{
 		return String.format("Figure: Circle; Center: %s; R: %f", this.p, this.r);
