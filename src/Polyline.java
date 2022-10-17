@@ -30,7 +30,8 @@ public class Polyline extends OpenFigure implements IPolyPoint
 	{
 		this.n = p.length;
 		this.p = new Point2D[this.n];
-		System.arraycopy(p, 0, this.p, 0, this.n);
+		for (int i = 0; i < this.n; i++)
+			this.setP(p[i], i);
 	}
 
 	@Override
@@ -38,7 +39,7 @@ public class Polyline extends OpenFigure implements IPolyPoint
 	{
 		if (i < 0 || i >= this.n)
 			throw new ArrayIndexOutOfBoundsException();
-		this.p[i] = p;
+		this.p[i] = new Point2D(p);
 	}
 
 	@Override
@@ -101,6 +102,13 @@ public class Polyline extends OpenFigure implements IPolyPoint
 			return false;
 		}
 		throw new IllegalArgumentException("Shape is not found");
+	}
+
+	public Polyline clone()
+	{
+		var result = (Polyline) super.clone();
+		result.setP(this.p);
+		return result;
 	}
 
 	@Override

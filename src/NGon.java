@@ -32,7 +32,8 @@ public class NGon implements IShape, IPolyPoint
 	{
 		this.n = p.length;
 		this.p = new Point2D[this.n];
-		System.arraycopy(p, 0, this.p, 0, this.n);
+		for (int i = 0; i < this.n; i++)
+			this.setP(p[i], i);
 	}
 
 	@Override
@@ -40,7 +41,7 @@ public class NGon implements IShape, IPolyPoint
 	{
 		if (i < 0 || i >= this.n)
 			throw new ArrayIndexOutOfBoundsException();
-		this.p[i] = p;
+		this.p[i] = new Point2D(p);
 	}
 
 	@Override
@@ -115,6 +116,20 @@ public class NGon implements IShape, IPolyPoint
 		return i.cross(this);
 	}
 
+	@Override
+	public NGon clone() throws AssertionError
+	{
+		try
+		{
+			var result = (NGon) super.clone();
+			result.setP(this.p);
+			return result;
+		}
+		catch (CloneNotSupportedException e)
+		{
+			throw new AssertionError();
+		}
+	}
 	@Override
 	public String toString()
 	{

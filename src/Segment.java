@@ -5,8 +5,8 @@ public class Segment extends OpenFigure
 
 	public Segment(Point2D s, Point2D f)
 	{
-		this.start = new Point2D(s.getX());
-		this.finish = new Point2D(f.getX());
+		setStart(s);
+		setFinish(f);
 	}
 
 	public Point2D getStart()
@@ -16,7 +16,7 @@ public class Segment extends OpenFigure
 
 	public void setStart(Point2D a)
 	{
-		this.start = a;
+		this.start = new Point2D(a);
 	}
 
 	public Point2D getFinish()
@@ -26,7 +26,7 @@ public class Segment extends OpenFigure
 
 	public void setFinish(Point2D a)
 	{
-		this.finish = a;
+		this.finish = new Point2D(a);
 	}
 
 	@Override
@@ -140,6 +140,14 @@ public class Segment extends OpenFigure
 		throw new IllegalArgumentException("Shape is not found");
 	}
 
+	@Override
+	public Segment clone()
+	{
+		var result = (Segment) super.clone();
+		result.setStart(this.start);
+		result.setFinish(this.finish);
+		return result;
+	}
 	public String toString()
 	{
 		return String.format("Figure: Segment; Points: {%s %s}", this.start, this.finish);
